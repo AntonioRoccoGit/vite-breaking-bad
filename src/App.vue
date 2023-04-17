@@ -40,8 +40,8 @@ export default {
       <div class="container">
         <h3 class="founded"> Founded <span>{{ manyCard.current_rows }}</span> cards</h3>
         <div class="row row-cols-5 gx-4 gy-2">
-          <div class="col" v-for="(item, index) in store.cardsArray">
-            <AppCard :cards="store.cardsArray[index]" />
+          <div class="col" v-for="(item, index) in store.cardsArray" :key="item.id">
+            <AppCard :cards="item" />
           </div>
         </div>
       </div>

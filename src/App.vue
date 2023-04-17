@@ -13,12 +13,16 @@ export default {
     AppCard
   },
   mounted() {
-    axios.get(store.getUrl).then((resp) => {
-      this.store.cardsArray = resp.data.data;
-    }),
-      axios.get(store.getUrl).then((resp) => {
-        this.manyCard = resp.data.meta;
-      })
+    axios
+      .get(store.getUrl)
+      .then((resp) => {
+        this.store.cardsArray = resp.data.data;
+      }),
+      axios
+        .get(store.getUrl)
+        .then((resp) => {
+          this.manyCard = resp.data.meta;
+        })
   }
 }
 </script>

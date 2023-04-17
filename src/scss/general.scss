@@ -1,0 +1,36 @@
+@use "./partials/variables.scss" as *;
+@import "bootstrap/scss/bootstrap";
+
+header.header {
+    height: 80px;
+    background-color: white;
+}
+
+body {
+    background-color: $bg_main_color;
+}
+
+img {
+    max-width: 100%;
+}
+
+.founded {
+    background-color: black;
+    font-size: 1rem;
+    padding: .6rem;
+    color: white;
+}
+
+section {
+    &.select {
+        margin-left: 5rem;
+    }
+
+    &.selected-card {
+        background-color: white;
+        padding: 1rem;
+        width: 80%;
+        margin: 0 auto;
+    }
+
+}

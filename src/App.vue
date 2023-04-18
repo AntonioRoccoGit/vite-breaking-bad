@@ -6,23 +6,42 @@ export default {
   data() {
     return {
       store,
-      manyCard: 0
+      manyCard: 0,
+      archeType: ["Alien", "Ally of Justice", "Ancient Gear"],
+      archeTypeSelected: ""
     }
   },
   components: {
     AppCard
   },
   mounted() {
-    axios
-      .get(store.getUrl)
-      .then((resp) => {
-        this.store.cardsArray = resp.data.data;
-      }),
+    this.getCardRequest();
+  },
+  methods: {
+    handleChange() {
+      if (this.archeTypeSelected) {
+        axios
+          .get(store.getUrl, {
+            params: {
+              archetype: this.archeTypeSelected
+            }
+          })
+          .then((resp) => {
+            this.store.cardsArray = resp.data.data;
+            this.manyCard = resp.data.meta.current_rows;
+          })
+      } else {
+        this.getCardRequest();
+      }
+    },
+    getCardRequest() {
       axios
         .get(store.getUrl)
         .then((resp) => {
-          this.manyCard = resp.data.meta;
-        })
+          this.store.cardsArray = resp.data.data;
+          this.manyCard = resp.data.meta.current_rows;
+        });
+    },
   }
 }
 </script>
@@ -35,14 +54,15 @@ export default {
 
   <body>
     <section class="select p-4">
-      <select class="rounded-1" name="card-type" id="">
-        <option value="0">Alien</option>
+      <select @change="handleChange" v-model="archeTypeSelected" class="rounded-1" name="card-type" id="">
+        <option value="">All</option>
+        <option v-for="type in archeType" :value=type>{{ type }}</option>
       </select>
     </section>
 
     <section class="selected-card ">
       <div class="container">
-        <h3 class="founded"> Founded <span>{{ manyCard.current_rows }}</span> cards</h3>
+        <h3 class="founded"> Founded <span>{{ manyCard }}</span> cards</h3>
         <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 gx-4 gy-2">
           <div class="col" v-for="(item, index) in store.cardsArray" :key="item.id">
             <AppCard :cards="item" />
